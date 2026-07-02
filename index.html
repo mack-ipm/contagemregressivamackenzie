@@ -84,37 +84,6 @@
     pointer-events:none;
   }
 
-  /* raios de luz irradiando atrás do pano, tipo sunburst — bem sutil */
-  .hero-rays{
-    position:absolute;
-    top: 8%;
-    left: 50%;
-    width: 200%;
-    aspect-ratio: 1/1;
-    transform: translate(-50%, -50%) rotate(0deg);
-    background: repeating-conic-gradient(
-      from 0deg,
-      rgba(255,255,255,0.18) 0deg 2deg,
-      transparent 2deg 16deg
-    );
-    -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 25%, transparent 50%);
-    mask-image: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 25%, transparent 50%);
-    mix-blend-mode: overlay;
-    opacity: 0.35;
-    z-index: 0;
-    pointer-events:none;
-    animation: raysSpin 70s linear infinite;
-  }
-
-  @keyframes raysSpin{
-    from{ transform: translate(-50%, -50%) rotate(0deg); }
-    to{ transform: translate(-50%, -50%) rotate(360deg); }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .hero-rays{ animation: none; }
-  }
-
   .cloth-reveal{
     position: relative;
     width: 100%;
@@ -1674,7 +1643,6 @@
   </div>
 
   <div class="hero">
-    <div class="hero-rays"></div>
     <div class="hero-glow"></div>
     <div class="cloth-reveal">
       <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png');">
