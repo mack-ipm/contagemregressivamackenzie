@@ -84,6 +84,37 @@
     pointer-events:none;
   }
 
+  /* raios de luz irradiando atrás do pano, tipo sunburst — bem sutil */
+  .hero-rays{
+    position:absolute;
+    top: 8%;
+    left: 50%;
+    width: 200%;
+    aspect-ratio: 1/1;
+    transform: translate(-50%, -50%) rotate(0deg);
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(255,255,255,0.18) 0deg 2deg,
+      transparent 2deg 16deg
+    );
+    -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 25%, transparent 50%);
+    mask-image: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 25%, transparent 50%);
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+    z-index: 0;
+    pointer-events:none;
+    animation: raysSpin 70s linear infinite;
+  }
+
+  @keyframes raysSpin{
+    from{ transform: translate(-50%, -50%) rotate(0deg); }
+    to{ transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-rays{ animation: none; }
+  }
+
   .cloth-reveal{
     position: relative;
     width: 100%;
@@ -324,6 +355,154 @@
     flex-shrink: 0;
   }
 
+  /* ---------- CARD: DATA + YOUTUBE ---------- */
+
+  .info-card{
+    margin-top: 1.8vh;
+    display:flex;
+    align-items:center;
+    gap: clamp(14px, 2.4vw, 26px);
+    padding: clamp(10px, 1.6vh, 16px) clamp(18px, 2.6vw, 28px);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(80,35,150,0.5), rgba(40,15,80,0.5));
+    border: 1px solid rgba(180,150,255,0.28);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 8px 24px rgba(30,5,70,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+    max-width: 94%;
+    flex-shrink: 0;
+  }
+
+  .info-card-date{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+
+  .info-card-date .cal-icon{
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: linear-gradient(160deg, #B98CFF, #7C3AED);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 0 12px rgba(160,110,255,0.5);
+  }
+
+  .info-card-date .cal-icon svg{
+    width: 16px;
+    height: 16px;
+    color: #fff;
+  }
+
+  .info-card-date span{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(13px, 1.8vh, 17px);
+    color: var(--white);
+    white-space: nowrap;
+  }
+
+  .info-card-date span .sep{
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    margin: 0 2px;
+  }
+
+  .info-divider-v{
+    width: 1px;
+    align-self: stretch;
+    background: rgba(255,255,255,0.16);
+    flex-shrink: 0;
+  }
+
+  .info-card-yt{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .yt-icon{
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #FF0033;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(255,0,60,0.4);
+  }
+
+  .yt-icon svg{
+    width: 13px;
+    height: 13px;
+    fill: #fff;
+    margin-left: 1px;
+  }
+
+  .info-card-yt-text{
+    display:flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .info-card-yt-text .yt-title{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12.5px, 1.7vh, 16px);
+    color: var(--white);
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  .info-card-yt-text .yt-link{
+    display:inline-flex;
+    align-items:center;
+    gap: 4px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: clamp(11px, 1.5vh, 14px);
+    color: #C9A8FF;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .info-card-yt-text .yt-link:hover{
+    color: #E4D2FF;
+  }
+
+  .info-card-yt-text .yt-link svg{
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px){
+    .info-card{
+      flex-wrap: wrap;
+      justify-content: center;
+      border-radius: 22px;
+      gap: 12px 16px;
+      padding: 14px 18px;
+    }
+    .info-divider-v{
+      width: 100%;
+      height: 1px;
+      align-self: auto;
+    }
+    .info-card-date span,
+    .info-card-yt-text .yt-title,
+    .info-card-yt-text .yt-link{
+      white-space: normal;
+    }
+    .info-card-yt-text{
+      text-align: left;
+    }
+  }
+
   .verse-line{
     margin-top: 1vh;
     padding: 0 32px;
@@ -469,7 +648,7 @@
     .cloth-reveal{
       animation: reveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .date-line, .verse-line, .footer-logo{
+    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .info-card, .verse-line, .footer-logo{
       animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .title{ animation-delay: 0.22s; }
@@ -477,7 +656,7 @@
     .subtitle{ animation-delay: 0.38s; }
     .countdown{ animation-delay: 0.48s; }
     .progress-wrap{ animation-delay: 0.58s; }
-    .date-line{ animation-delay: 0.68s; }
+    .info-card{ animation-delay: 0.68s; }
     .verse-line{ animation-delay: 0.76s; }
     .footer-logo{ animation-delay: 0.84s; }
   }
@@ -524,11 +703,12 @@
 
   .comments-subtitle{
     font-family: 'Manrope', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--lilac-dim);
+    font-weight: 600;
+    font-size: clamp(15px, 2vh, 20px);
+    color: rgba(255,255,255,0.85);
     text-align: center;
     margin-bottom: 28px;
+    letter-spacing: 0.01em;
   }
 
   /* ---------- LOGIN POR DRT ---------- */
@@ -1298,7 +1478,8 @@
   body.a11y-contrast .unit-number,
   body.a11y-contrast .comment-author,
   body.a11y-contrast .comment-text,
-  body.a11y-contrast .date-line,
+  body.a11y-contrast .info-card-date span,
+  body.a11y-contrast .info-card-yt-text .yt-title,
   body.a11y-contrast .login-welcome,
   body.a11y-contrast .comments-title{
     color: #FFFFFF !important;
@@ -1341,7 +1522,9 @@
   }
 
   body.a11y-large-text .unit-label,
-  body.a11y-large-text .date-line,
+  body.a11y-large-text .info-card-date span,
+  body.a11y-large-text .info-card-yt-text .yt-title,
+  body.a11y-large-text .info-card-yt-text .yt-link,
   body.a11y-large-text .comments-title,
   body.a11y-large-text .comments-subtitle,
   body.a11y-large-text .login-box label,
@@ -1429,12 +1612,10 @@
 
   <!-- ================= PAINEL DE ACESSIBILIDADE ================= -->
   <button type="button" id="accessibilityToggle" class="accessibility-fab" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="accessibilityPanel">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="4" r="2"></circle>
-      <path d="M19 8l-7 2-7-2"></path>
-      <path d="M12 10v4"></path>
-      <path d="M9 21l3-7 3 7"></path>
-      <path d="M7 13l5 1 5-1"></path>
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
+      <circle cx="12" cy="7.2" r="1.6"></circle>
+      <path d="M12 9.3c-2.6 0-5 .55-5 1.4 0 .5.7.85 1.8 1.05l1 .2-.6 5.2c-.05.5.32.95.82 1 .47.05.9-.28 1-.74l.6-3.6h.76l.6 3.6c.1.46.53.79 1 .74.5-.05.87-.5.82-1l-.6-5.2 1-.2c1.1-.2 1.8-.55 1.8-1.05 0-.85-2.4-1.4-5-1.4z"></path>
     </svg>
   </button>
 
@@ -1493,6 +1674,7 @@
   </div>
 
   <div class="hero">
+    <div class="hero-rays"></div>
     <div class="hero-glow"></div>
     <div class="cloth-reveal">
       <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png');">
@@ -1507,7 +1689,6 @@
     <span class="title-glow" aria-hidden="true">Você vai querer ver isso</span>
   </h1>
   <p class="highlight-line">e concorrer aos prêmios nesse dia!</p>
-  <p class="subtitle">Em breve.</p>
 
   <div class="countdown" id="countdown">
     <div class="unit-card">
@@ -1539,20 +1720,44 @@
     </div>
   </div>
 
-  <p class="date-line">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="3"></rect>
-      <line x1="16" y1="2" x2="16" y2="6"></line>
-      <line x1="8" y1="2" x2="8" y2="6"></line>
-      <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
-    05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
-  </p>
+  <div class="info-card">
+    <div class="info-card-date">
+      <span class="cal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="3"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </span>
+      <span>05 de agosto de 2026<span class="sep">&bull;</span>14h</span>
+    </div>
+
+    <div class="info-divider-v"></div>
+
+    <div class="info-card-yt">
+      <span class="yt-icon">
+        <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+      </span>
+      <div class="info-card-yt-text">
+        <span class="yt-title">Assista à revelação ao vivo no YouTube</span>
+        <a class="yt-link" href="#" target="_blank" rel="noopener">
+          Ative o lembrete e não perca!
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ================= SEÇÃO DE COMENTÁRIOS ================= -->
   <div class="comments-section">
     <div class="comments-divider-top"></div>
-    <p class="comments-title">Entre na contagem regressiva com a gente!</p>
+    <p class="comments-title">Qual é o seu palpite?</p>
     <p class="comments-subtitle">Deixe seu comentário, expectativa ou palpite.</p>
 
     <!-- Tela de login -->
