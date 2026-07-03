@@ -52,6 +52,25 @@
 
   /* ---------- HERO ---------- */
 
+  .corner-logo{
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    height: clamp(24px, 3.4vh, 34px);
+    width: auto;
+    z-index: 40;
+    opacity: 0.92;
+    pointer-events: none;
+  }
+
+  @media (max-width: 600px){
+    .corner-logo{
+      top: 14px;
+      right: 14px;
+      height: 22px;
+    }
+  }
+
   .hero{
     position:relative;
     width:100%;
@@ -470,6 +489,29 @@
     .info-card-yt-text{
       text-align: left;
     }
+  }
+
+  /* ======= TESTE A: seta com bounce ======= */
+  .scroll-hint-arrow{
+    margin-top: 1.6vh;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(180,150,255,0.3);
+    background: rgba(124,58,237,0.14);
+    color: var(--lilac);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    animation: bounceHint 2s ease-in-out infinite;
+    flex-shrink:0;
+  }
+  .scroll-hint-arrow svg{ width:18px; height:18px; }
+
+  @keyframes bounceHint{
+    0%, 100%{ transform: translateY(0); opacity: 0.7; }
+    50%{ transform: translateY(6px); opacity: 1; }
   }
 
   .verse-line{
@@ -1579,6 +1621,8 @@
 </head>
 <body>
 
+  <img src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/Logo_M.png" alt="Mackenzie" class="corner-logo">
+
   <!-- ================= PAINEL DE ACESSIBILIDADE ================= -->
   <button type="button" id="accessibilityToggle" class="accessibility-fab" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="accessibilityPanel">
     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1642,7 +1686,7 @@
     </div>
   </div>
 
-  <div class="hero">
+  <div class="hero" id="topAnchor">
     <div class="hero-glow"></div>
     <div class="cloth-reveal">
       <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png');">
@@ -1721,9 +1765,15 @@
     </div>
   </div>
 
+  <!-- Seta indicando que há mais conteúdo abaixo -->
+  <button type="button" class="scroll-hint-arrow" id="scrollHintArrow" aria-label="Rolar para ver comentários">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
 
   <!-- ================= SEÇÃO DE COMENTÁRIOS ================= -->
-  <div class="comments-section">
+  <div class="comments-section" id="comentarios">
     <div class="comments-divider-top"></div>
     <p class="comments-title">Qual é o seu palpite?</p>
     <p class="comments-subtitle">Deixe seu comentário, expectativa ou palpite.</p>
@@ -2489,6 +2539,17 @@
   carregarSessao();
   aplicarEstadoLogin();
   carregarComentarios();
+
+  // Seta: rolar suavemente até os comentários
+  (function(){
+    const comentariosEl = document.getElementById('comentarios');
+    const arrowBtn = document.getElementById('scrollHintArrow');
+    if (arrowBtn && comentariosEl){
+      arrowBtn.addEventListener('click', () => {
+        comentariosEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  })();
 </script>
 
 </body>
