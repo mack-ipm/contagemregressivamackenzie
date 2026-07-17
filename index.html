@@ -52,25 +52,6 @@
 
   /* ---------- HERO ---------- */
 
-  .corner-logo{
-    position: fixed;
-    top: 18px;
-    right: 20px;
-    height: clamp(24px, 3.4vh, 34px);
-    width: auto;
-    z-index: 40;
-    opacity: 0.92;
-    pointer-events: none;
-  }
-
-  @media (max-width: 600px){
-    .corner-logo{
-      top: 14px;
-      right: 14px;
-      height: 22px;
-    }
-  }
-
   .hero{
     position:relative;
     width:100%;
@@ -343,177 +324,6 @@
     flex-shrink: 0;
   }
 
-  /* ---------- CARD: DATA + YOUTUBE ---------- */
-
-  .info-card{
-    margin-top: 1.8vh;
-    display:flex;
-    align-items:center;
-    gap: clamp(14px, 2.4vw, 26px);
-    padding: clamp(10px, 1.6vh, 16px) clamp(18px, 2.6vw, 28px);
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(80,35,150,0.5), rgba(40,15,80,0.5));
-    border: 1px solid rgba(180,150,255,0.28);
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 8px 24px rgba(30,5,70,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
-    max-width: 94%;
-    flex-shrink: 0;
-  }
-
-  .info-card-date{
-    display:flex;
-    align-items:center;
-    gap: 10px;
-  }
-
-  .info-card-date .cal-icon{
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-    border-radius: 9px;
-    background: linear-gradient(160deg, #B98CFF, #7C3AED);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow: 0 0 12px rgba(160,110,255,0.5);
-  }
-
-  .info-card-date .cal-icon svg{
-    width: 16px;
-    height: 16px;
-    color: #fff;
-  }
-
-  .info-card-date span{
-    font-family: 'Manrope', sans-serif;
-    font-weight: 700;
-    font-size: clamp(13px, 1.8vh, 17px);
-    color: var(--white);
-    white-space: nowrap;
-  }
-
-  .info-card-date span .sep{
-    font-weight: 500;
-    color: rgba(255,255,255,0.55);
-    margin: 0 2px;
-  }
-
-  .info-divider-v{
-    width: 1px;
-    align-self: stretch;
-    background: rgba(255,255,255,0.16);
-    flex-shrink: 0;
-  }
-
-  .info-card-yt{
-    display:flex;
-    align-items:center;
-    gap: 12px;
-    min-width: 0;
-  }
-
-  .yt-icon{
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-    background: #FF0033;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(255,0,60,0.4);
-  }
-
-  .yt-icon svg{
-    width: 13px;
-    height: 13px;
-    fill: #fff;
-    margin-left: 1px;
-  }
-
-  .info-card-yt-text{
-    display:flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
-
-  .info-card-yt-text .yt-title{
-    font-family: 'Manrope', sans-serif;
-    font-weight: 700;
-    font-size: clamp(12.5px, 1.7vh, 16px);
-    color: var(--white);
-    line-height: 1.25;
-    white-space: nowrap;
-  }
-
-  .info-card-yt-text .yt-link{
-    display:inline-flex;
-    align-items:center;
-    gap: 4px;
-    font-family: 'Manrope', sans-serif;
-    font-weight: 600;
-    font-size: clamp(11px, 1.5vh, 14px);
-    color: #C9A8FF;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .info-card-yt-text .yt-link:hover{
-    color: #E4D2FF;
-  }
-
-  .info-card-yt-text .yt-link svg{
-    width: 11px;
-    height: 11px;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 640px){
-    .info-card{
-      flex-wrap: wrap;
-      justify-content: center;
-      border-radius: 22px;
-      gap: 12px 16px;
-      padding: 14px 18px;
-    }
-    .info-divider-v{
-      width: 100%;
-      height: 1px;
-      align-self: auto;
-    }
-    .info-card-date span,
-    .info-card-yt-text .yt-title,
-    .info-card-yt-text .yt-link{
-      white-space: normal;
-    }
-    .info-card-yt-text{
-      text-align: left;
-    }
-  }
-
-  /* ======= TESTE A: seta com bounce ======= */
-  .scroll-hint-arrow{
-    margin-top: 1.6vh;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid rgba(180,150,255,0.3);
-    background: rgba(124,58,237,0.14);
-    color: var(--lilac);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    animation: bounceHint 2s ease-in-out infinite;
-    flex-shrink:0;
-  }
-  .scroll-hint-arrow svg{ width:18px; height:18px; }
-
-  @keyframes bounceHint{
-    0%, 100%{ transform: translateY(0); opacity: 0.7; }
-    50%{ transform: translateY(6px); opacity: 1; }
-  }
-
   .verse-line{
     margin-top: 1vh;
     padding: 0 32px;
@@ -543,6 +353,29 @@
     width: auto;
     opacity: 1;
     flex-shrink: 0;
+  }
+
+  .privacy-notice{
+    margin-top: 1.6vh;
+    margin-bottom: 0;
+    padding: 0 24px;
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: clamp(10px, 1.2vh, 13px);
+    color: rgba(255,255,255,0.38);
+    flex-shrink: 0;
+  }
+
+  .privacy-link{
+    color: rgba(185,135,255,0.75);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .privacy-link:hover{
+    color: #C084FC;
   }
 
   @media (max-width: 600px){
@@ -659,7 +492,7 @@
     .cloth-reveal{
       animation: reveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .info-card, .verse-line, .footer-logo{
+    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .date-line, .verse-line, .footer-logo{
       animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .title{ animation-delay: 0.22s; }
@@ -667,7 +500,7 @@
     .subtitle{ animation-delay: 0.38s; }
     .countdown{ animation-delay: 0.48s; }
     .progress-wrap{ animation-delay: 0.58s; }
-    .info-card{ animation-delay: 0.68s; }
+    .date-line{ animation-delay: 0.68s; }
     .verse-line{ animation-delay: 0.76s; }
     .footer-logo{ animation-delay: 0.84s; }
   }
@@ -687,10 +520,18 @@
     width: 100%;
     max-width: 720px;
     padding: 0 24px;
-    margin-top: 3vh;
+    margin-top: 5vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .comments-divider-top{
+    width: 64px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--glow), transparent);
+    box-shadow: 0 0 12px rgba(160,110,255,0.7);
+    margin-bottom: 28px;
   }
 
   .comments-title{
@@ -1481,8 +1322,7 @@
   body.a11y-contrast .unit-number,
   body.a11y-contrast .comment-author,
   body.a11y-contrast .comment-text,
-  body.a11y-contrast .info-card-date span,
-  body.a11y-contrast .info-card-yt-text .yt-title,
+  body.a11y-contrast .date-line,
   body.a11y-contrast .login-welcome,
   body.a11y-contrast .comments-title{
     color: #FFFFFF !important;
@@ -1525,9 +1365,7 @@
   }
 
   body.a11y-large-text .unit-label,
-  body.a11y-large-text .info-card-date span,
-  body.a11y-large-text .info-card-yt-text .yt-title,
-  body.a11y-large-text .info-card-yt-text .yt-link,
+  body.a11y-large-text .date-line,
   body.a11y-large-text .comments-title,
   body.a11y-large-text .comments-subtitle,
   body.a11y-large-text .login-box label,
@@ -1613,8 +1451,6 @@
 </head>
 <body>
 
-  <img src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/Logo_M.png" alt="Mackenzie" class="corner-logo">
-
   <!-- ================= PAINEL DE ACESSIBILIDADE ================= -->
   <button type="button" id="accessibilityToggle" class="accessibility-fab" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="accessibilityPanel">
     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1678,7 +1514,7 @@
     </div>
   </div>
 
-  <div class="hero" id="topAnchor">
+  <div class="hero">
     <div class="hero-glow"></div>
     <div class="cloth-reveal">
       <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png');">
@@ -1693,6 +1529,7 @@
     <span class="title-glow" aria-hidden="true">Você vai querer ver isso</span>
   </h1>
   <p class="highlight-line">e concorrer aos prêmios nesse dia!</p>
+  <p class="subtitle">Em breve.</p>
 
   <div class="countdown" id="countdown">
     <div class="unit-card">
@@ -1724,48 +1561,19 @@
     </div>
   </div>
 
-  <div class="info-card">
-    <div class="info-card-date">
-      <span class="cal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="3"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-      </span>
-      <span>05 de agosto de 2026<span class="sep">&bull;</span>14h</span>
-    </div>
-
-    <div class="info-divider-v"></div>
-
-    <div class="info-card-yt">
-      <span class="yt-icon">
-        <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-      </span>
-      <div class="info-card-yt-text">
-        <span class="yt-title">Descubra a grande novidade ao vivo no YouTube</span>
-        <a class="yt-link" href="https://www.youtube.com/live/ldaousd8T24?si=wrCeEW0ai9zCcWF4" target="_blank" rel="noopener">
-          Ative o lembrete e não perca!
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Seta indicando que há mais conteúdo abaixo -->
-  <button type="button" class="scroll-hint-arrow" id="scrollHintArrow" aria-label="Rolar para ver comentários">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"></polyline>
+  <p class="date-line">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="3"></rect>
+      <line x1="16" y1="2" x2="16" y2="6"></line>
+      <line x1="8" y1="2" x2="8" y2="6"></line>
+      <line x1="3" y1="10" x2="21" y2="10"></line>
     </svg>
-  </button>
+    05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
+  </p>
 
   <!-- ================= SEÇÃO DE COMENTÁRIOS ================= -->
-  <div class="comments-section" id="comentarios">
+  <div class="comments-section">
+    <div class="comments-divider-top"></div>
     <p class="comments-title">Qual é o seu palpite?</p>
     <p class="comments-subtitle">Deixe seu comentário, expectativa ou palpite.</p>
 
@@ -1812,6 +1620,11 @@
   </p>
 
   <img src="https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/MCK_horizontal_branca-01.png" alt="Mackenzie" class="footer-logo">
+
+  <p class="privacy-notice">
+    Saiba como seus dados pessoais são utilizados e compartilhados acessando nosso
+    <a href="privacidade.html" target="_blank" rel="noopener noreferrer" class="privacy-link">Aviso de Privacidade</a>.
+  </p>
 
 <script>
   // Data final: 05/08/2026, 14h (horário local do navegador)
@@ -2530,17 +2343,6 @@
   carregarSessao();
   aplicarEstadoLogin();
   carregarComentarios();
-
-  // Seta: rolar suavemente até os comentários
-  (function(){
-    const comentariosEl = document.getElementById('comentarios');
-    const arrowBtn = document.getElementById('scrollHintArrow');
-    if (arrowBtn && comentariosEl){
-      arrowBtn.addEventListener('click', () => {
-        comentariosEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    }
-  })();
 </script>
 
 </body>

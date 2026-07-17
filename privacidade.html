@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviso de Privacidade – Mackenzie Academia Corporativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body{
+    height: 100%;
+    font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(180deg, #1B0540 0%, #0F0420 60%, #0A0218 100%);
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- CABEÇALHO ---- */
+  header{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 32px;
+    background: rgba(15, 4, 32, 0.85);
+    border-bottom: 1px solid rgba(180, 150, 255, 0.18);
+    backdrop-filter: blur(8px);
+  }
+
+  .header-logo{
+    height: 36px;
+    width: auto;
+  }
+
+  .header-title{
+    font-weight: 700;
+    font-size: clamp(13px, 2vw, 17px);
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.9);
+    text-align: right;
+  }
+
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #B987FF;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .back-link:hover{
+    color: #C084FC;
+  }
+
+  .back-link svg{
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ---- ÁREA DO PDF ---- */
+  .pdf-wrapper{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 0;
+    min-height: 0;
+  }
+
+  .pdf-label{
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(185, 135, 255, 0.7);
+    margin-bottom: 12px;
+  }
+
+  .pdf-frame{
+    flex: 1;
+    width: 100%;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    background: #FFFFFF;
+    min-height: 400px;
+  }
+
+  /* fallback para mobile onde iframe pode não renderizar o PDF */
+  .pdf-fallback{
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    padding: 40px 24px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .pdf-fallback p{
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .pdf-download-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #9B5CFF, #C084FC);
+    color: #1A0B33;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    transition: opacity 0.2s ease;
+  }
+
+  .pdf-download-btn:hover{
+    opacity: 0.9;
+  }
+
+  /* ---- RODAPÉ ---- */
+  footer{
+    flex-shrink: 0;
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.06em;
+  }
+
+  /* em mobile, iframe de PDF costuma não funcionar bem — mostrar fallback */
+  @media (max-width: 600px){
+    header{
+      padding: 14px 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-title{
+      display: none;
+    }
+
+    .pdf-wrapper{
+      padding: 16px 16px 0;
+    }
+
+    .pdf-frame{
+      display: none;
+    }
+
+    .pdf-fallback{
+      display: flex;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Voltar
+    </a>
+
+    <img
+      src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/MCK_horizontal_branca-01.png"
+      alt="Mackenzie Academia Corporativa"
+      class="header-logo">
+
+    <span class="header-title">Aviso de Privacidade</span>
+  </header>
+
+  <div class="pdf-wrapper">
+    <p class="pdf-label">Documento oficial</p>
+
+    <iframe
+      class="pdf-frame"
+      src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/AVISO_DE_PRIVACIDADE_Plataforma_Contagem_Regressiva_Mackenzie.pdf"
+      title="Aviso de Privacidade – Mackenzie Academia Corporativa">
+    </iframe>
+
+    <!-- Fallback para mobile -->
+    <div class="pdf-fallback">
+      <p>Seu dispositivo não suporta a visualização do PDF diretamente nesta página.</p>
+      <a
+        href="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/AVISO_DE_PRIVACIDADE_Plataforma_Contagem_Regressiva_Mackenzie.pdf"
+        class="pdf-download-btn"
+        download>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Baixar Aviso de Privacidade
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    © Mackenzie Academia Corporativa &nbsp;·&nbsp; Documento para fins informativos
+  </footer>
+
+</body>
+</html>
