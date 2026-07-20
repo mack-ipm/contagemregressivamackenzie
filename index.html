@@ -296,7 +296,10 @@
     width: 30px; height: 30px; border-radius: 9px;
     background: #FF0033; display:flex; align-items:center; justify-content:center;
     flex-shrink: 0; box-shadow: 0 0 12px rgba(255,0,60,0.4);
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.15s ease;
   }
+  .yt-icon:hover{ opacity: 0.88; transform: scale(1.06); }
   .yt-icon svg{ width: 13px; height: 13px; fill: #fff; margin-left: 1px; }
   .info-card-yt-text{ display:flex; flex-direction: column; gap: 2px; min-width: 0; }
   .info-card-yt-text .yt-title{
@@ -823,9 +826,9 @@
     </div>
     <div class="info-divider-v"></div>
     <div class="info-card-yt">
-      <span class="yt-icon">
+      <a href="https://www.youtube.com/live/ldaousd8T24?si=wrCeEW0ai9zCcWF4" target="_blank" rel="noopener" class="yt-icon">
         <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-      </span>
+      </a>
       <div class="info-card-yt-text">
         <span class="yt-title">Descubra a grande novidade ao vivo no YouTube</span>
         <a class="yt-link" href="https://www.youtube.com/live/ldaousd8T24?si=wrCeEW0ai9zCcWF4" target="_blank" rel="noopener">
