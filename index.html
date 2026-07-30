@@ -850,7 +850,7 @@
     </svg>
   </button>
   <div class="comments-section" id="comentarios">
-    <p class="comments-title">Qual é o seu palpite?</p>
+    <p class="comments-title" id="commentsTitle">Qual é o seu palpite?</p>
     <p class="comments-subtitle">Deixe seu comentário e compartilhe sua expectativa.</p>
     <div class="login-box" id="loginBox">
       <label for="drtInput">Acesse com seu DRT para participar</label>
@@ -1041,7 +1041,20 @@
     </div>`;
   }
   function escapeHtml(str){ const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
+  function atualizarTituloContagem(){
+    const titleEl = document.getElementById('commentsTitle');
+    if (!titleEl) return;
+    // conta só comentários raiz (não respostas) para o número principal
+    const totalRaiz = todosComentarios.filter(c => !c.respostaPara).length;
+    if (totalRaiz === 0) {
+      titleEl.textContent = 'Qual é o seu palpite?';
+    } else {
+      titleEl.textContent = `Já temos ${totalRaiz} palpite${totalRaiz > 1 ? 's' : ''}! Qual é o seu?`;
+    }
+  }
+
   function renderListaComentarios(){
+    atualizarTituloContagem();
     if (!todosComentarios.length) { commentsList.innerHTML = '<p class="comments-empty">Seja o primeiro a comentar!</p>'; return; }
     const arvore = montarArvore(JSON.parse(JSON.stringify(todosComentarios)));
     arvore.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora));
