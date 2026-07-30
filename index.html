@@ -455,6 +455,16 @@
     font-size: clamp(18px, 2.4vw, 24px); letter-spacing: 0.06em;
     text-transform: uppercase; color: var(--white); text-align: center; margin-bottom: 8px;
   }
+  .palpite-count{
+    font-size: 1.45em;
+    font-weight: 800;
+    color: #C084FC;
+    text-shadow: 0 0 18px rgba(192,132,252,0.7), 0 0 32px rgba(155,92,255,0.4);
+    letter-spacing: 0.02em;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+  }
   .comments-subtitle{
     font-family: 'Manrope', sans-serif; font-weight: 600;
     font-size: clamp(15px, 2vh, 20px); color: rgba(255,255,255,0.85);
@@ -1046,9 +1056,9 @@
     if (!titleEl) return;
     const total = todosComentarios.length;
     if (total === 0) {
-      titleEl.textContent = 'Qual é o seu palpite?';
+      titleEl.innerHTML = 'Qual é o seu palpite?';
     } else {
-      titleEl.textContent = `Já temos ${total} palpite${total > 1 ? 's' : ''}! Qual é o seu?`;
+      titleEl.innerHTML = `Já temos <span class="palpite-count">${total}</span> palpite${total > 1 ? 's' : ''}! Qual é o seu?`;
     }
   }
 
