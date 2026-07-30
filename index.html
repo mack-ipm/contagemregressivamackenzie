@@ -1044,12 +1044,11 @@
   function atualizarTituloContagem(){
     const titleEl = document.getElementById('commentsTitle');
     if (!titleEl) return;
-    // conta só comentários raiz (não respostas) para o número principal
-    const totalRaiz = todosComentarios.filter(c => !c.respostaPara).length;
-    if (totalRaiz === 0) {
+    const total = todosComentarios.length;
+    if (total === 0) {
       titleEl.textContent = 'Qual é o seu palpite?';
     } else {
-      titleEl.textContent = `Já temos ${totalRaiz} palpite${totalRaiz > 1 ? 's' : ''}! Qual é o seu?`;
+      titleEl.textContent = `Já temos ${total} palpite${total > 1 ? 's' : ''}! Qual é o seu?`;
     }
   }
 
