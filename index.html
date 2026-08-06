@@ -383,6 +383,121 @@
     transition: color 0.2s ease;
   }
   .privacy-link:hover{ color: #C084FC; }
+  /* ===== REVEAL: imagem do MACverso ===== */
+
+  .macverso-wrap{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* espaçador invisível que mantém a altura do hero após o pano sumir */
+  .hero-spacer{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: none;
+    pointer-events: none;
+  }
+
+  .hero-spacer.is-active{
+    display: block;
+  }
+
+  .macverso-wrap.is-revealing{
+    animation: macversoAppear 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: auto;
+  }
+
+  .macverso-wrap.is-revealed{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @keyframes macversoAppear{
+    0%  { opacity: 0; transform: scale(0.92); }
+    100%{ opacity: 1; transform: scale(1); }
+  }
+
+  .macverso-img{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    filter: drop-shadow(0 0 36px rgba(200,100,255,0.7));
+    transition: transform 0.35s ease, filter 0.35s ease;
+    transform-style: preserve-3d;
+    animation: macversoPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes macversoPulse{
+    0%,  100% { transform: scale(1);    filter: drop-shadow(0 0 36px rgba(200,100,255,0.7)); }
+    50%        { transform: scale(1.03); filter: drop-shadow(0 0 52px rgba(200,100,255,0.95)); }
+  }
+
+  .macverso-img:hover{
+    animation-play-state: paused;
+    filter: drop-shadow(0 0 56px rgba(200,100,255,1));
+  }
+
+  /* brilho giratório contínuo ao redor da imagem */
+  .macverso-shine{
+    position: absolute;
+    inset: -8%;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      rgba(220,120,255,0.55) 15%,
+      rgba(255,255,255,0.9) 20%,
+      rgba(180,80,255,0.55) 25%,
+      transparent 40%,
+      transparent 60%,
+      rgba(120,200,255,0.5) 75%,
+      rgba(255,255,255,0.75) 80%,
+      rgba(100,180,255,0.45) 85%,
+      transparent 100%
+    );
+    animation: shineRotate 3.5s linear infinite;
+    pointer-events: none;
+    -webkit-mask: radial-gradient(circle, transparent 44%, black 48%, black 52%, transparent 56%);
+    mask: radial-gradient(circle, transparent 44%, black 48%, black 52%, transparent 56%);
+  }
+
+  @keyframes shineRotate{
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* pano: desaparece com fade out */
+  .cloth-reveal.is-falling{
+    animation: clothFade 1.2s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes clothFade{
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* flash de luz */
+  .reveal-flash{
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    pointer-events: none;
+    animation: flashBurst 0.8s ease-out forwards;
+  }
+
+  @keyframes flashBurst{
+    0%   { background: rgba(255,255,255,0); }
+    12%  { background: rgba(255,255,255,0.8); }
+    100% { background: rgba(255,255,255,0); }
+  }
+
   .ended-state{
     display:none; text-align:center;
     margin-top: clamp(32px, 6vw, 52px);
@@ -585,7 +700,24 @@
     display: flex; flex-direction: column; gap: 12px;
   }
   .comments-empty{ text-align: center; font-size: 13px; color: var(--lilac-dim); padding: 20px 0; }
-  .comments-loading{ text-align: center; font-size: 13px; color: var(--lilac-dim); padding: 20px 0; }
+  .comments-loading{
+    text-align: center; font-size: 13px; color: var(--lilac-dim); padding: 20px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .loading-dots{
+    display: flex; gap: 6px; justify-content: center;
+  }
+  .loading-dots span{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--glow); opacity: 0.4;
+    animation: dotPulse 1.2s ease-in-out infinite;
+  }
+  .loading-dots span:nth-child(2){ animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3){ animation-delay: 0.4s; }
+  @keyframes dotPulse{
+    0%, 100%{ opacity: 0.25; transform: scale(0.85); }
+    50%{ opacity: 1; transform: scale(1.15); }
+  }
   .login-hint-tooltip{
     position: fixed; z-index: 100;
     background: rgba(20, 6, 45, 0.98); border: 1px solid var(--card-border);
@@ -758,6 +890,7 @@
 </style>
 </head>
 <body>
+  <canvas id="starsCanvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
   <img src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/Logo_M.png" alt="Mackenzie" class="corner-logo">
   <button type="button" id="accessibilityToggle" class="accessibility-fab" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="accessibilityPanel">
     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -796,19 +929,27 @@
     </div>
   </div>
   <div class="hero" id="topAnchor">
-    <div class="hero-glow"></div>
-    <div class="cloth-reveal">
+    <div class="hero-glow" id="heroGlow"></div>
+    <div class="cloth-reveal" id="clothReveal">
       <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png');">
         <img src="https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/Pano%20surpresa%20transparente.png" alt="Pano de seda suspenso, em espera">
         <div class="cloth-light" id="clothLight"></div>
       </div>
     </div>
+    <!-- MACverso fica por baixo do pano, no mesmo espaço — troca por fade sem mover nada -->
+    <div class="macverso-wrap" id="macversoWrap">
+      <img src="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/Image.png"
+           alt="MACverso" class="macverso-img" id="macversoImg">
+      <div class="macverso-shine"></div>
+    </div>
+    <!-- espaçador: mantém a altura do hero após o pano sumir -->
+    <div class="hero-spacer" id="heroSpacer"></div>
   </div>
   <h1 class="title" id="titleEl">
     Você vai querer ver isso
     <span class="title-glow" aria-hidden="true">Você vai querer ver isso</span>
   </h1>
-  <p class="highlight-line">e concorrer aos prêmios nesse dia!</p>
+  <p class="highlight-line" id="highlightLine">e concorrer aos prêmios nesse dia!</p>
   <div class="countdown" id="countdown">
     <div class="unit-card"><div class="unit-number" id="days">00</div><div class="unit-label">Dias</div></div>
     <div class="colon">:</div>
@@ -825,18 +966,6 @@
     </div>
   </div>
   <div class="info-card">
-    <div class="info-card-date">
-      <span class="cal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="3"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-      </span>
-      <span>5 de agosto de 2026<span class="sep">&bull;</span>14h</span>
-    </div>
-    <div class="info-divider-v"></div>
     <div class="info-card-yt">
       <a href="https://www.youtube.com/live/ldaousd8T24?si=wrCeEW0ai9zCcWF4" target="_blank" rel="noopener" class="yt-icon">
         <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
@@ -844,7 +973,7 @@
       <div class="info-card-yt-text">
         <span class="yt-title">Descubra a grande novidade ao vivo no YouTube</span>
         <a class="yt-link" href="https://www.youtube.com/live/ldaousd8T24?si=wrCeEW0ai9zCcWF4" target="_blank" rel="noopener">
-          Ative o lembrete e não perca!
+          Assista ao vivo agora!
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
             <polyline points="15 3 21 3 21 9"></polyline>
@@ -860,8 +989,8 @@
     </svg>
   </button>
   <div class="comments-section" id="comentarios">
-    <p class="comments-title" id="commentsTitle">Qual é o seu palpite?</p>
-    <p class="comments-subtitle">Deixe seu comentário e compartilhe sua expectativa.</p>
+    <p class="comments-title" id="commentsTitle">O que você achou do MACverso?</p>
+    <p class="comments-subtitle">O MACverso é de todos nós. Comente!</p>
     <div class="login-box" id="loginBox">
       <label for="drtInput">Acesse com seu DRT para participar</label>
       <div class="login-input-row">
@@ -886,7 +1015,10 @@
       </div>
     </form>
     <div class="comments-list" id="commentsList">
-      <p class="comments-loading" id="commentsLoading">Carregando comentários...</p>
+      <p class="comments-loading" id="commentsLoading">
+        <span>Carregando comentários...</span>
+        <span class="loading-dots"><span></span><span></span><span></span></span>
+      </p>
     </div>
   </div>
   <div class="divider" style="margin-top: 6vh;"></div>
@@ -899,8 +1031,9 @@
     <a href="https://raw.githubusercontent.com/mack-ipm/contagemregressivamackenzie/main/AVISO_DE_PRIVACIDADE_Plataforma_Contagem_Regressiva_Mackenzie.pdf" download="Aviso_de_Privacidade_Mackenzie.pdf" class="privacy-link">Aviso de Privacidade</a>.
   </p>
 <script>
-  const targetDate = new Date(2026, 7, 5, 14, 0, 0);
+  const targetDate = new Date(2026, 7, 5, 14, 45, 0);
   const startDate = new Date(2026, 5, 25, 0, 0, 0);
+  let revelado = false; // estado global do reveal
   const daysEl = document.getElementById('days');
   const hoursEl = document.getElementById('hours');
   const minutesEl = document.getElementById('minutes');
@@ -916,7 +1049,13 @@
     const elapsed = now - startDate;
     const progressPct = Math.min(100, Math.max(0, (elapsed / totalSpan) * 100));
     progressFillEl.style.width = progressPct + '%';
-    if (diff <= 0){ countdownEl.style.display = 'none'; endedEl.style.display = 'block'; clearInterval(timer); return; }
+    if (diff <= 0){
+      countdownEl.style.display = 'none';
+      endedEl.style.display = 'none'; // substituído pelo reveal
+      clearInterval(timer);
+      iniciarReveal();
+      return;
+    }
     const totalSeconds = Math.floor(diff / 1000);
     const days = Math.floor(totalSeconds / 86400);
     const hours = Math.floor((totalSeconds % 86400) / 3600);
@@ -927,8 +1066,9 @@
     minutesEl.textContent = pad(minutes);
     secondsEl.textContent = pad(seconds);
   }
+  let timer; // declarado antes do tick para evitar erro de hoisting
   tick();
-  const timer = setInterval(tick, 1000);
+  timer = setInterval(tick, 1000);
   const clothWrap = document.getElementById('clothWrap');
   const clothLight = document.getElementById('clothLight');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -958,9 +1098,31 @@
       currentLightY += (targetLightY - currentLightY) * 0.18;
       clothWrap.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
       clothLight.style.background = `radial-gradient(circle 280px at ${currentLightX}% ${currentLightY}%, rgba(255,255,255,1) 0%, rgba(230,210,255,0.7) 30%, rgba(160,110,255,0.25) 55%, transparent 78%)`;
+
+      // paralax sutil na imagem do MACverso (após o reveal)
+      if (revelado) {
+        const macImg = document.getElementById('macversoImg');
+        if (macImg) {
+          macImg.style.transform = `scale(1) rotateX(${currentRotX * 0.4}deg) rotateY(${currentRotY * 0.4}deg)`;
+        }
+      }
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
+
+    // hover direto na imagem revelada
+    document.addEventListener('mousemove', (e) => {
+      const macversoWrap = document.getElementById('macversoWrap');
+      if (!macversoWrap || !macversoWrap.classList.contains('is-revealed')) return;
+      const rect = macversoWrap.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      if (px < 0 || px > 1 || py < 0 || py > 1) return;
+      const nx = (px * 2 - 1) * 12;
+      const ny = (py * 2 - 1) * 12;
+      targetRotY = nx;
+      targetRotX = -ny;
+    });
   }
   const titleEl = document.getElementById('titleEl');
   if (titleEl && !prefersReducedMotion) {
@@ -1056,9 +1218,9 @@
     if (!titleEl) return;
     const total = todosComentarios.length;
     if (total === 0) {
-      titleEl.innerHTML = 'Qual é o seu palpite?';
+      titleEl.innerHTML = 'O que você achou do MACverso?';
     } else {
-      titleEl.innerHTML = `Já temos <span class="palpite-count">${total}</span> palpite${total > 1 ? 's' : ''}! Qual é o seu?`;
+      titleEl.innerHTML = 'O que você achou do MACverso?';
     }
   }
 
@@ -1074,12 +1236,39 @@
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => { limiteVisivel += 6; renderListaComentarios(); });
   }
+  const COMMENTS_CACHE_KEY = 'mac_countdown_comments_cache';
+
+  function salvarCacheComentarios(comentarios){
+    try { localStorage.setItem(COMMENTS_CACHE_KEY, JSON.stringify(comentarios)); } catch(e) {}
+  }
+
+  function carregarCacheComentarios(){
+    try { const raw = localStorage.getItem(COMMENTS_CACHE_KEY); return raw ? JSON.parse(raw) : null; } catch(e) { return null; }
+  }
+
   async function carregarComentarios(){
+    // 1. mostra cache imediatamente (se existir) — carregamento instantâneo
+    const cache = carregarCacheComentarios();
+    if (cache && cache.length > 0) {
+      todosComentarios = cache;
+      renderListaComentarios();
+    }
+
+    // 2. busca dados frescos em segundo plano
     try {
       const resp = await fetch(`${APPS_SCRIPT_URL}?action=listarComentarios`);
       const data = await resp.json();
-      if (data.sucesso) { todosComentarios = data.comentarios; renderListaComentarios(); }
-    } catch(e) { commentsList.innerHTML = '<p class="comments-empty">Não foi possível carregar os comentários.</p>'; }
+      if (data.sucesso) {
+        todosComentarios = data.comentarios;
+        salvarCacheComentarios(data.comentarios);
+        renderListaComentarios();
+      }
+    } catch(e) {
+      // se já tinha cache, mantém exibido; só mostra erro se não tinha nada
+      if (!cache || cache.length === 0) {
+        commentsList.innerHTML = '<p class="comments-empty">Não foi possível carregar os comentários.</p>';
+      }
+    }
   }
   commentForm.addEventListener('submit', async (e) => {
     e.preventDefault(); if (!sessaoAtual) return;
@@ -1206,6 +1395,82 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && a11yPanel.classList.contains('is-open')) { togglePainel(false); a11yToggleBtn.focus(); } });
   document.addEventListener('click', (e) => { if (a11yPanel.classList.contains('is-open') && !a11yPanel.contains(e.target) && !a11yToggleBtn.contains(e.target)) togglePainel(false); });
   Object.keys(a11yCheckboxes).forEach((chave) => { a11yCheckboxes[chave].addEventListener('change', () => { const prefs = carregarPrefsA11y(); prefs[chave] = a11yCheckboxes[chave].checked; salvarPrefsA11y(prefs); aplicarPrefsA11y(prefs); }); });
+  function iniciarReveal(){
+    if (revelado) return;
+    revelado = true;
+
+    const clothRevealEl = document.getElementById('clothReveal');
+    const macversoWrap = document.getElementById('macversoWrap');
+    const heroGlow = document.getElementById('heroGlow');
+    const titleEl = document.getElementById('titleEl');
+
+    // flash de luz
+    const flash = document.createElement('div');
+    flash.className = 'reveal-flash';
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 900);
+
+    // pano desaparece com fade
+    setTimeout(() => {
+      clothRevealEl.classList.add('is-falling');
+    }, 200);
+
+    // MACverso aparece com fade no mesmo lugar — nada no layout se move
+    setTimeout(() => {
+      macversoWrap.classList.add('is-revealing');
+    }, 600);
+
+    // estado final
+    setTimeout(() => {
+      macversoWrap.classList.remove('is-revealing');
+      macversoWrap.classList.add('is-revealed');
+      clothRevealEl.style.display = 'none';
+
+      // ativa o espaçador para manter a altura do hero
+      const spacer = document.getElementById('heroSpacer');
+      if (spacer) spacer.classList.add('is-active');
+
+      // empurra a imagem para baixo para não ficar colada na barra do navegador
+      const heroEl = document.getElementById('topAnchor');
+      if (heroEl) heroEl.style.marginTop = '4vh';
+
+      if (heroGlow) heroGlow.style.background = 'radial-gradient(circle, rgba(200,80,255,0.7), rgba(100,50,200,0.35) 45%, transparent 72%)';
+
+      if (titleEl) {
+        titleEl.innerHTML = 'Chegou a hora do MACverso!';
+        titleEl.style.marginTop = '7vh';
+        titleEl.style.animation = 'none';
+        void titleEl.offsetWidth;
+        titleEl.style.animation = 'fadeUp 0.7s ease both';
+      }
+      const hlEl = document.getElementById('highlightLine');
+      if (hlEl) {
+        hlEl.style.animation = 'none';
+        void hlEl.offsetWidth;
+        hlEl.textContent = 'Conheça o novo portal de desenvolvimento profissional do Mackenzie!';
+        hlEl.style.animation = 'fadeUp 0.7s ease 0.15s both';
+      }
+    }, 1800);
+  }
+
+  // verifica na abertura se a data já passou
+  if (new Date() >= targetDate) {
+    const clothRevealEl = document.getElementById('clothReveal');
+    const macversoWrap = document.getElementById('macversoWrap');
+    const titleEl = document.getElementById('titleEl');
+    const spacer = document.getElementById('heroSpacer');
+    if (clothRevealEl) clothRevealEl.style.display = 'none';
+    if (macversoWrap) macversoWrap.classList.add('is-revealed');
+    if (spacer) spacer.classList.add('is-active');
+    const heroEl2 = document.getElementById('topAnchor');
+    if (heroEl2) heroEl2.style.marginTop = '4vh';
+    if (titleEl) { titleEl.innerHTML = 'Chegou a hora do MACverso!'; titleEl.style.marginTop = '7vh'; }
+    const hlEl = document.getElementById('highlightLine');
+    if (hlEl) hlEl.textContent = 'Conheça o novo portal de desenvolvimento profissional do Mackenzie!';
+    if (countdownEl) countdownEl.style.display = 'none';
+    revelado = true;
+  }
+
   aplicarPrefsA11y(carregarPrefsA11y());
   carregarSessao();
   aplicarEstadoLogin();
@@ -1230,6 +1495,233 @@
     try { await fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'registrarAcessoAnonimo', visitorId, dispositivo, navegador, cidade }) }); } catch(e) {}
   }
   registrarAcessoAnonimo();
+
+  // ===== ESTRELAS NO FUNDO =====
+  (function(){
+    const canvas = document.getElementById('starsCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [];
+    let shootingStars = [];
+    const COUNT = 140;
+
+    function resize(){
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function criarEstrelas(){
+      stars = [];
+      for (let i = 0; i < COUNT; i++){
+        const r = Math.random();
+        stars.push({
+          x:      Math.random() * canvas.width,
+          y:      Math.random() * canvas.height,
+          raio:   r < 0.6 ? Math.random() * 0.8 + 0.2
+                : r < 0.9 ? Math.random() * 1.2 + 0.8
+                :            Math.random() * 1.6 + 1.4,
+          opMax:  Math.random() * 0.6 + 0.2,
+          op:     Math.random(),
+          delta:  (Math.random() * 0.004 + 0.001) * (Math.random() < 0.5 ? 1 : -1),
+          cor:    r > 0.9 && Math.random() < 0.5
+                    ? `hsla(${260 + Math.random()*60},80%,80%,`
+                    : 'rgba(255,255,255,',
+        });
+      }
+    }
+
+    // cria uma estrela cadente em posição aleatória no topo/esquerda
+    function criarEstrela(){
+      const angulo = Math.PI / 4 + (Math.random() - 0.5) * 0.4; // ~45° com variação
+      const vel = 6 + Math.random() * 8;
+      return {
+        x:      Math.random() * canvas.width * 1.2 - canvas.width * 0.1,
+        y:      Math.random() * canvas.height * 0.4 - 40,
+        vx:     Math.cos(angulo) * vel,
+        vy:     Math.sin(angulo) * vel,
+        comp:   80 + Math.random() * 120, // comprimento da cauda
+        op:     0,
+        fase:   'entrada', // entrada → brilho → saída
+        vida:   0,
+        vidaMax: 60 + Math.random() * 40,
+      };
+    }
+
+    // agenda a próxima estrela cadente em intervalo aleatório
+    let proxEstrela = Date.now() + 2000 + Math.random() * 3000;
+
+    function tickShootingStars(){
+      const agora = Date.now();
+
+      // lança nova estrela cadente
+      if (agora >= proxEstrela){
+        // às vezes lança 2 em sequência rápida
+        shootingStars.push(criarEstrela());
+        if (Math.random() < 0.25){
+          setTimeout(() => shootingStars.push(criarEstrela()), 300 + Math.random() * 400);
+        }
+        proxEstrela = agora + 2000 + Math.random() * 4000;
+      }
+
+      // atualiza e desenha cada estrela cadente
+      shootingStars = shootingStars.filter(s => {
+        s.vida++;
+        s.x += s.vx;
+        s.y += s.vy;
+
+        // opacidade: fade in rápido → sustenta → fade out
+        if (s.vida < 10)                        s.op = s.vida / 10;
+        else if (s.vida < s.vidaMax - 15)        s.op = 1;
+        else                                     s.op = Math.max(0, (s.vidaMax - s.vida) / 15);
+
+        if (s.op <= 0 || s.x > canvas.width + 100 || s.y > canvas.height + 100) return false;
+
+        // desenha a cauda com gradiente
+        const tailX = s.x - Math.cos(Math.atan2(s.vy, s.vx)) * s.comp;
+        const tailY = s.y - Math.sin(Math.atan2(s.vy, s.vx)) * s.comp;
+
+        const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+        grad.addColorStop(0, `rgba(255,255,255,0)`);
+        grad.addColorStop(0.6, `rgba(200,170,255,${s.op * 0.4})`);
+        grad.addColorStop(1, `rgba(255,255,255,${s.op})`);
+
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(s.x, s.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // ponta brilhante
+        const glowGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, 4);
+        glowGrad.addColorStop(0, `rgba(255,255,255,${s.op})`);
+        glowGrad.addColorStop(1, `rgba(200,170,255,0)`);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = glowGrad;
+        ctx.fill();
+
+        return true;
+      });
+    }
+
+    function tick(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // estrelas fixas piscando
+      for (const s of stars){
+        s.op += s.delta;
+        if (s.op > s.opMax){ s.op = s.opMax; s.delta *= -1; }
+        if (s.op < 0)       { s.op = 0;      s.delta *= -1; }
+
+        ctx.beginPath();
+        if (s.raio > 1.2){
+          const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.raio * 3.5);
+          grad.addColorStop(0,   s.cor + s.op + ')');
+          grad.addColorStop(0.4, s.cor + s.op * 0.35 + ')');
+          grad.addColorStop(1,   s.cor + '0)');
+          ctx.fillStyle = grad;
+          ctx.arc(s.x, s.y, s.raio * 3.5, 0, Math.PI * 2);
+        } else {
+          ctx.fillStyle = s.cor + s.op + ')';
+          ctx.arc(s.x, s.y, s.raio, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      }
+
+      // estrelas cadentes
+      tickShootingStars();
+
+      requestAnimationFrame(tick);
+    }
+
+    resize();
+    criarEstrelas();
+    tick();
+    window.addEventListener('resize', () => { resize(); criarEstrelas(); });
+
+    // ===== BRILHINHOS NO CURSOR =====
+    let particles = [];
+    let lastMouseX = -999, lastMouseY = -999;
+
+    document.addEventListener('mousemove', (e) => {
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      // só cria partícula se o mouse se moveu o suficiente
+      if (Math.abs(dx) + Math.abs(dy) < 6) return;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+
+      // cria 1-2 partículas por movimento
+      const qtd = Math.random() < 0.4 ? 2 : 1;
+      for (let i = 0; i < qtd; i++){
+        const ang = Math.random() * Math.PI * 2;
+        const vel = Math.random() * 1.2 + 0.3;
+        particles.push({
+          x:     e.clientX + (Math.random() - 0.5) * 12,
+          y:     e.clientY + (Math.random() - 0.5) * 12,
+          vx:    Math.cos(ang) * vel,
+          vy:    Math.sin(ang) * vel - 0.6, // leve flutuação para cima
+          raio:  Math.random() * 1.8 + 0.5,
+          op:    Math.random() * 0.6 + 0.4,
+          decay: Math.random() * 0.025 + 0.015,
+          cor:   Math.random() < 0.5
+                  ? `rgba(255,255,255,`
+                  : `rgba(${180 + Math.floor(Math.random()*75)},${120 + Math.floor(Math.random()*60)},255,`,
+        });
+      }
+    });
+
+    // desenha e atualiza partículas do cursor dentro do loop existente
+    const _tickOriginal = tick;
+    // sobrescreve tick para incluir partículas
+    (function injetarParticulas(){
+      // patch no requestAnimationFrame já rodando — mais simples: adiciona ao canvas no mesmo loop
+      // já está no mesmo loop — basta usar a variável particles no tick original
+    })();
+
+    // segundo canvas dedicado às partículas do cursor (z-index maior, para ficar sobre tudo)
+    const cursorCanvas = document.createElement('canvas');
+    cursorCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;';
+    document.body.appendChild(cursorCanvas);
+    const cCtx = cursorCanvas.getContext('2d');
+
+    function resizeCursor(){
+      cursorCanvas.width  = window.innerWidth;
+      cursorCanvas.height = window.innerHeight;
+    }
+    resizeCursor();
+    window.addEventListener('resize', resizeCursor);
+
+    function tickCursor(){
+      cCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+      particles = particles.filter(p => {
+        p.x  += p.vx;
+        p.y  += p.vy;
+        p.vy += 0.02; // gravidade leve
+        p.op -= p.decay;
+        if (p.op <= 0) return false;
+
+        cCtx.beginPath();
+        // glow suave ao redor da partícula
+        const g = cCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.raio * 3);
+        g.addColorStop(0,   p.cor + p.op + ')');
+        g.addColorStop(0.5, p.cor + p.op * 0.4 + ')');
+        g.addColorStop(1,   p.cor + '0)');
+        cCtx.fillStyle = g;
+        cCtx.arc(p.x, p.y, p.raio * 3, 0, Math.PI * 2);
+        cCtx.fill();
+
+        return true;
+      });
+      requestAnimationFrame(tickCursor);
+    }
+    tickCursor();
+  })();
+
+  // expõe globalmente para teste via Console do navegador
+  window.iniciarReveal = iniciarReveal;
 </script>
 </body>
 </html>
